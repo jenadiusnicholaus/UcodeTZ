@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <div class="page-content-inner mt-5 ml-5">
+     <form action="." method="post" novalidate>
+         {% csrf_token%}
+
+                <div uk-grid>
+                    <div class="uk-width-2-5@m">
+                        <div class="uk-card-default rounded text-center p-4">
+                            <div class="user-profile-photo  m-auto">
+                                <img src="{{user.userprofile.profile_pic.url}}" alt="">
+                            </div>
+                            <h4 class="mb-2 mt-3">{{user.username}}</h4>
+                            <p class="m-0"> Member since {{user.created_on}} </p>
+                        </div>
+                        <div class="uk-card-default rounded ">
+                            <div class="uk-flex uk-flex-between uk-flex-middle py-3 px-4">
+                                <h5 class="mb-0"> Summary </h5>
+                                    <a href="#"> more </a>
+                            </div>
+                            <hr class="m-0">
+                            <div class="p-3">
+                            {% for summary in course_order.courses.all %}
+                                <div class="uk-grid-small uk-flex-middle" uk-grid>
+
+                                    <div class="uk-width-auto">
+                                        <img style="width:50px; height:50px;" src="{{summary.course.image.url}}" alt="image">
+<!--                                        <button type="button" class="btn btn-danger btn-icon-only">-->
+<!--                                            <span class="d-flex justify-content-center">-->
+<!--                                       <i class="icon-brand-angular icon-small"></i>-->
+<!--                                            </span>-->
+<!--                                          </button>-->
+                                    </div>
+                                    <div class="uk-width-expand">
+                                        <h5 class="mb-2"> {{summary.course.title|truncatechars:15}} </h5>
+                                        <div class="course-progressbar">
+<!--                                            <div class="course-progressbar-filler" style="width:100%"></div>-->
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-expand">
+                                        {% if summary.course.discount_price %}
+                                        <h6 class="mb-2">Tsh: {{summary.course.discount_price}} <s style="font-size:9px;" class="uk-h6 text-muted">{{summary.course.price}}</s> </h6>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                                {% endfor%}
+                                <div class="styles--legal-message--3RKvA"><span>By completing your purchase you agree to these <a href="https://www.udemy.com/terms/" class="bold" target="_blank" rel="noopener noreferrer">Terms of Service</a>.</span></div>
+                                <a href="#" class="ellipsis btn btn-lg btn-default btn-block">Total:{{course_order.get_total}}Tsh </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="uk-width-expand@m">
+
+                        <div class="uk-card-default rounded">
+                            <div class="uk-flex uk-flex-between uk-flex-middle py-3 px-4">
+                                <h5 class="mb-0"> Checkout </h5>
+                                    <a href="#" uk-tooltip="title:Edit Account; pos: left"> <i
+                                            class="icon-feather-settings"></i> </a>
+                            </div>
+                            <hr class="m-0">
+                            <div class="uk-child-width-1-2@s uk-grid-small p-4" uk-grid>
+                                <div>
+                                    <h6 class="uk-text-bold"> Billing Address </h6>
+                                    {{form.country}}
+                                </div>
+                                <div>
+                                    <h6 class="uk-text-bold"> Region </h6>
+                                     {{form.region}}
+                                </div>
+                                <div>
+                                    <h6 class="uk-text-bold"> Payments options</h6>
+
+                                        <label><input class="uk-radio" type="radio" name="payment_option" checked="">
+                                            New payment card</label>
+                                        <label><input class="uk-radio" type="radio" name="payment_option"> PayPal</label>
+
+<!--                                        <p> eliedaniels@gmail.com </p-->
+                                </div>
+                                <div>
+                                     <h6 class="uk-text-bold" >
+                                        payments options </h6>
+                                     <label><input class="uk-radio" type="radio" name="payment_option" checked="">
+                                            Mpesa</label>
+                                        <label><input class="uk-radio" type="radio" name="payment_option"> TigoPesa</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="uk-card-default rounded mt-4">
+                            <div class="uk-flex uk-flex-between uk-flex-middle py-3 px-4">
+                                <h5 class="mb-0">Payment Details </h5>
+                                <a href="#" uk-tooltip="title: Edit Billing address; pos: left"> <i
+                                        class="icon-feather-settings"></i> </a>
+                            </div>
+                            <hr class="m-0">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12 col-md-offset-4">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="row">
+                                                    <h3 class="text-center"></h3>
+                                                    <img class="img-responsive cc-img" src="http://www.prepbootstrap.com/Content/images/shared/misc/creditcardicons.png">
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <form role="form">
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label>CARD NUMBER</label>
+                                                                <div class="input-group">
+                                                                    <input type="tel" class="form-control" placeholder="Valid Card Number" />
+                                                                    <span class="input-group-addon"><span class="fa fa-credit-card"></span></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-7 col-md-7">
+                                                            <div class="form-group">
+                                                                <label><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                                                <input type="tel" class="form-control" placeholder="MM / YY" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-5 col-md-5 pull-right">
+                                                            <div class="form-group">
+                                                                <label>CV CODE</label>
+                                                                <input type="tel" class="form-control" placeholder="CVC" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label>CARD OWNER</label>
+                                                                <input type="text" class="form-control" placeholder="Card Owner Names" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <button type="submit" class="ellipsis btn btn-lg btn-primary btn-block">Process payment</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <style>
+                                .cc-img {
+                                    margin: 0 auto;
+                                }
+                            </style>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- footer
+               ================================================== -->
+                <div class="footer">
+                    <div class="uk-grid-collapse" uk-grid>
+                        <div class="uk-width-expand@s uk-first-column">
+                            <p>© 2019 <strong>Courseplus</strong>. All Rights Reserved. </p>
+                        </div>
+                        <div class="uk-width-auto@s">
+                            <nav class="footer-nav-icon">
+                                <ul>
+                                    <li><a href="#"><i class="icon-brand-facebook"></i></a></li>
+                                    <li><a href="#"><i class="icon-brand-dribbble"></i></a></li>
+                                    <li><a href="#"><i class="icon-brand-youtube"></i></a></li>
+                                    <li><a href="#"><i class="icon-brand-twitter"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+         </form>
+ </div>
+     
+
+{% endblock content %}
+

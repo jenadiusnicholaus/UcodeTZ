@@ -1,0 +1,155 @@
+{% extends 'base.html'%}
+{%  load static %}
+{% block extra_style %}
+
+
+{% endblock extra_style %}
+{% block content %}
+<div class="page-content mt-5">
+            <div class="page-content-inner">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header actions-toolbar border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="d-inline-block mb-0">
+                                <a href="{% url 'course'%}"
+                                   class="uk-width-1-1 btn btn-default transition-3d-hover">
+                                <i class="uil-play"></i> Back to Courl list </a></h4>
+                            <div class="d-flex">
+
+                                <a href="#" class="btn btn-icon btn-hover  btn-circle" uk-tooltip="Search product">
+                                    <i class="uil-search"></i>
+                                </a>
+                                <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1">
+                                        <input class="uk-search-input shadow-0 uk-form-small" type="search"
+                                            placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+
+                                <a href="#" class="btn btn-icon btn-hover  btn-circle" uk-tooltip="filter">
+                                    <i class="uil-filter"></i>
+                                </a>
+                                <div uk-dropdown="pos: bottom-right ; mode: click ;animation: uk-animation-scale-up">
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li class="uk-active"><a href="#"> Newest </a></li>
+                                        <li><a href="#">From A-Z</a></li>
+                                        <li><a href="#">From Z-A</a></li>
+                                    </ul>
+                                </div>
+
+
+                                <a href="#" class="btn btn-icon btn-hover  btn-circle" uk-tooltip="More">
+                                    <i class="uil-ellipsis-h"></i>
+                                </a>
+                                <div uk-dropdown="pos: bottom-right ; mode: click ;animation: uk-animation-scale-up">
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li><a href="#"> Refresh </a></li>
+                                        <li><a href="#">Manage</a></li>
+                                        <li><a href="#">Setting</a></li>
+                                    </ul>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="table align-items-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Title</th>
+
+                                    <th scope="col">Unit price</th>
+
+                                    <th scope="col"> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                            {% for cart_item in cart_object.courses.all%}
+                                <tr>
+                                    <th scope="row">
+                                        <div class="media align-items-center">
+                                            <div>
+                                                <div class="avatar-parent-child" style="width: max-content">
+                                                    <a href="{% url 'course_intro' cart_item.id %}">
+                                                        <img style="width:50px; height:50px;" alt="Image placeholder"
+                                                          src="{{cart_item.course.image.url}}"
+                                                        class="avatar">
+
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </th>
+                                    <td> <strong>{{cart_item.course.title}}</strong></td>
+                                    <td>Tsh  <strong>{{cart_item.get_final_price}}</strong></td>
+
+
+                                    <td class="text-right">
+                                        <!-- Actions -->
+                                        <div class="actions ml-3">
+
+                                            <a href="#" class="btn btn-danger btn-hover btn-sm btn-circle"
+                                                uk-tooltip="Delete user">
+                                                <i class="fa fa-trash "></i> </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {%endfor%}
+                                <tr>
+                                    <th scope="row" colspan="4" >
+
+                                    </th>
+
+                                    <td>Total</td>
+                                    <td>
+                                       <span>Tsh {{cart_object.get_total}}</span>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row" colspan="4" >
+                                    </th>
+                                    <td colspan="2">
+                                        <a href="{% url 'checkout'%}" class="uk-width-1-1 btn btn-danger transition-3d-hover"> <i class="uil-play"></i> Checkout </a></td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+                </div>
+
+
+                <!-- footer
+                ================================================== -->
+                <div class="footer">
+                    <div class="uk-grid-collapse" uk-grid>
+                        <div class="uk-width-expand@s uk-first-column">
+                            <p>© 2019 <strong>Courseplus</strong>. All Rights Reserved. </p>
+                        </div>
+                        <div class="uk-width-auto@s">
+                            <nav class="footer-nav-icon">
+                                <ul>
+                                    <li><a href="#"><i class="icon-brand-facebook"></i></a></li>
+                                    <li><a href="#"><i class="icon-brand-dribbble"></i></a></li>
+                                    <li><a href="#"><i class="icon-brand-youtube"></i></a></li>
+                                    <li><a href="#"><i class="icon-brand-twitter"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+{% endblock content%}
